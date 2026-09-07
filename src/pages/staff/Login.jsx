@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import PublicHeader from "../../components/PublicHeader";
 
 function Login() {
   const { login } = useAuth();
@@ -28,8 +29,10 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-      <div className="w-full max-w-sm">
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <PublicHeader />
+      <div className="flex-1 flex items-center justify-center">
+      <div className="w-full max-w-sm px-6">
         <h1 className="text-xl font-semibold text-slate-900 text-center mb-6">
           Staff Login
         </h1>
@@ -77,6 +80,7 @@ function Login() {
             Sign in
           </button>
         </form>
+      </div>
       </div>
     </div>
   );
