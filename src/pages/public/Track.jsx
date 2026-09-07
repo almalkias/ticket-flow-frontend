@@ -1,5 +1,217 @@
+import { useState } from "react";
+import { apiRequest } from "../../api/client";
+
 function Track() {
-  return <div className="p-6 text-sm text-slate-700">Track page</div>;
+  const [form, setForm] = useState({ email: "", reference: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [ticket, setTicket] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [reply, setReply] = useState("");
+  const [replying, setReplying] = useState(false);
+
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  const statusStyles = {
+    open: "bg-blue-50 text-blue-700 border-blue-200",
+    in_progress: "bg-amber-50 text-amber-800 border-amber-200",
+    resolved: "bg-green-50 text-green-700 border-green-200",
+    closed: "bg-slate-100 text-slate-600 border-slate-200",
+  };
+
+  function StatusBadge({ status }) {
+    return (
+      <span
+        className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium 
+  ${statusStyles[status]}`}
+      >
+        {status.replace("_", " ")}
+      </span>
+    );
+  }
+
+  async function handleLookup(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    try {
+      const found = await apiRequest(
+        `/tickets/track?email=${encodeURIComponent(form.email)}&reference=${encodeURIComponent(form.reference)}`,
+      );
+      const msgs = await apiRequest(`/tickets/${found.id}/messages`);
+      setTicket(found);
+      setMessages(msgs);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleReply(e) {
+    e.preventDefault();
+    setReplying(true);
+    try {
+      await apiRequest(`/tickets/${ticket.id}/messages`, {
+        method: "POST",
+        body: {
+          body: reply,
+          customer_email: form.email,
+          reference_number: form.reference,
+        },
+      });
+      const msgs = await apiRequest(`/tickets/${ticket.id}/messages`);
+      setMessages(msgs);
+      setReply("");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setReplying(false);
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <header className="border-b border-slate-200 bg-white px-6 py-4">
+        <h1 className="text-base font-semibold text-slate-900">
+          Maintenance Requests
+        </h1>
+      </header>
+
+      <main className="mx-auto max-w-lg px-6 py-8">
+        {!ticket ? (
+          <>
+            <h2 className="text-xl font-semibold text-slate-900">
+              Track your request
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Enter your email and reference number to check your request
+              status.
+            </p>
+
+            <form
+              className="mt-6 space-y-4 rounded-md border border-slate-200 bg-white p-5 shadow-sm"
+              onSubmit={handleLookup}
+            >
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900
+  placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Reference number
+                </label>
+                <input
+                  type="text"
+                  name="reference"
+                  value={form.reference}
+                  onChange={handleChange}
+                  placeholder="TKT-20260907-0001"
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 
+  placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                />
+              </div>
+
+              {error && <p className="text-sm text-red-600">{error}</p>}
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800
+  disabled:opacity-50"
+              >
+                Find request
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="font-mono text-xs text-slate-500">
+                  {ticket.reference_number}
+                </p>
+                <h2 className="mt-0.5 text-xl font-semibold text-slate-900">
+                  {ticket.subject}
+                </h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  {ticket.category?.name}
+                </p>
+              </div>
+              <StatusBadge status={ticket.status} />
+            </div>
+
+            <div className="mt-6 space-y-3">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`rounded-md border p-4 text-sm ${
+                    msg.sender_type === "customer"
+                      ? "border-slate-200 bg-white"
+                      : "border-amber-200 bg-amber-50"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-medium text-slate-700">
+                      {msg.sender_name}
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      {new Date(msg.created_at).toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-slate-700 whitespace-pre-wrap">
+                    {msg.body}
+                  </p>
+                </div>
+              ))}
+
+              {messages.length === 0 && (
+                <p className="text-sm text-slate-500">No messages yet.</p>
+              )}
+            </div>
+
+            {ticket.status !== "closed" ? (
+              <form className="mt-6 space-y-3" onSubmit={handleReply}>
+                <label className="mb-1 block text-xs font-medium text-slate-600">
+                  Add a reply
+                </label>
+                <textarea
+                  rows={4}
+                  value={reply}
+                  onChange={(e) => setReply(e.target.value)}
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400
+  focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                />
+                <button
+                  type="submit"
+                  disabled={replying || !reply.trim()}
+                  className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 
+  disabled:opacity-50"
+                >
+                  Send reply
+                </button>
+              </form>
+            ) : (
+              <p className="mt-6 text-sm text-slate-500">
+                This request has been closed and is no longer accepting replies.
+              </p>
+            )}
+          </>
+        )}
+      </main>
+    </div>
+  );
 }
 
 export default Track;
