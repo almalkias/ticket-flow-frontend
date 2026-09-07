@@ -1,16 +1,73 @@
-# React + Vite
+# Ticket Flow — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Customer-facing and staff interface for an internal maintenance request system.
 
-Currently, two official plugins are available:
+Built with React, Vite, and Tailwind CSS. Authentication is handled by Firebase.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech stack
 
-## React Compiler
+- **React** — UI library
+- **Vite** — build tool and dev server
+- **Tailwind CSS v4** — styling
+- **Firebase** — authentication (client SDK)
+- **React Router v7** — routing
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js 18+
+- A running instance of the [Ticket Flow backend](https://github.com/almalki/ticket-flow-backend)
+- Firebase project with Authentication enabled
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Environment variables
+
+Copy the example file and fill in the values:
+
+```bash
+cp .env.example .env
+```
+
+```env
+VITE_API_URL=http://localhost:3000
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_APP_ID=
+```
+
+Firebase values are found in **Firebase Console → Project settings → Your apps → SDK setup and configuration**.
+
+### 3. Start the dev server
+
+```bash
+npm run dev
+```
+
+The app runs at `http://localhost:5173`.
+
+## Pages
+
+### Public (no login required)
+
+| Path | Description |
+|---|---|
+| `/` | Landing page |
+| `/submit` | Submit a maintenance request |
+| `/track` | Track a request by email and reference number |
+
+### Staff (login required)
+
+| Path | Description |
+|---|---|
+| `/login` | Staff login |
+| `/dashboard` | All tickets table |
+| `/tickets/:id` | Ticket detail — messages, replies, actions |
+| `/agents` | Manage agents — admin only |
+| `/categories` | Manage categories — admin only |
