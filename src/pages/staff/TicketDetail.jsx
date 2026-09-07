@@ -1,5 +1,11 @@
+import StaffLayout from "../../components/StaffLayout";
+
 function TicketDetail() {
-  return <div className="p-6 text-sm text-slate-700">Ticket detail page</div>;
+  return (
+    <StaffLayout>
+      <p className="text-sm text-slate-700">Ticket detail content here.</p>
+    </StaffLayout>
+  );
 }
 
 export default TicketDetail;

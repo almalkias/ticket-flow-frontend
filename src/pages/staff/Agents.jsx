@@ -1,5 +1,11 @@
+import StaffLayout from "../../components/StaffLayout";
+
 function Agents() {
-  return <div className="p-6 text-sm text-slate-700">Agents page</div>;
+  return (
+    <StaffLayout>
+      <p className="text-sm text-slate-700">Agents content here.</p>
+    </StaffLayout>
+  );
 }
 
 export default Agents;

@@ -1,5 +1,11 @@
+import StaffLayout from "../../components/StaffLayout";
+
 function Categories() {
-  return <div className="p-6 text-sm text-slate-700">Categories page</div>;
+  return (
+    <StaffLayout>
+      <p className="text-sm text-slate-700">Categories content here.</p>
+    </StaffLayout>
+  );
 }
 
 export default Categories;
