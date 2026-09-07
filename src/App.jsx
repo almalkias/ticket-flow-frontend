@@ -7,6 +7,7 @@ import Dashboard from "./pages/staff/Dashboard";
 import TicketDetail from "./pages/staff/TicketDetail";
 import Agents from "./pages/staff/Agents";
 import Categories from "./pages/staff/Categories";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -15,10 +16,38 @@ function App() {
       <Route path="/submit" element={<Submit />} />
       <Route path="/track" element={<Track />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/tickets/:id" element={<TicketDetail />} />
-      <Route path="/agents" element={<Agents />} />
-      <Route path="/categories" element={<Categories />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/tickets/:id"
+        element={
+          <ProtectedRoute>
+            <TicketDetail />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/agents"
+        element={
+          <ProtectedRoute>
+            <Agents />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/categories"
+        element={
+          <ProtectedRoute>
+            <Categories />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
