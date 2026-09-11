@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { apiRequest } from "../../api/client";
 import PublicHeader from "../../components/PublicHeader";
 
 function Track() {
+  const [searchParams] = useSearchParams();
+  const orgUuid = searchParams.get("org");
   const [form, setForm] = useState({ email: "", reference: "" });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -39,7 +42,7 @@ function Track() {
     setError(null);
     try {
       const found = await apiRequest(
-        `/tickets/track?email=${encodeURIComponent(form.email)}&reference=${encodeURIComponent(form.reference)}`,
+        `/tickets/track?email=${encodeURIComponent(form.email)}&reference=${encodeURIComponent(form.reference)}&org=${orgUuid}`,
       );
       const msgs = await apiRequest(`/tickets/${found.id}/messages`);
       setTicket(found);

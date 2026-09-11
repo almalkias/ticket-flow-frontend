@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import PublicHeader from "../../components/PublicHeader";
 
 function Login() {
@@ -80,6 +80,12 @@ function Login() {
             Sign in
           </button>
         </form>
+        <p className="mt-4 text-center text-sm text-slate-500">
+          New here?{" "}
+          <Link to="/register" className="text-slate-900 font-medium hover:underline">
+            Create your organization
+          </Link>
+        </p>
       </div>
       </div>
     </div>

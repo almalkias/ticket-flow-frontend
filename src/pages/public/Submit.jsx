@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { apiRequest } from "../../api/client";
 import PublicHeader from "../../components/PublicHeader";
 
 function Submit() {
+  const [searchParams] = useSearchParams();
+  const orgUuid = searchParams.get("org");
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({
     customer_name: "",
@@ -26,7 +29,7 @@ function Submit() {
     try {
       const created = await apiRequest("/tickets", {
         method: "POST",
-        body: { ...form, category_id: Number(form.category_id) },
+        body: { ...form, category_id: Number(form.category_id), org_uuid: orgUuid },
       });
       setTicket(created);
     } catch (err) {
@@ -37,8 +40,21 @@ function Submit() {
   }
 
   useEffect(() => {
-    apiRequest("/categories/public").then(setCategories);
-  }, []);
+    if (orgUuid) {
+      apiRequest(`/categories/public?org=${orgUuid}`).then(setCategories);
+    }
+  }, [orgUuid]);
+
+  if (!orgUuid) {
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <PublicHeader />
+        <main className="mx-auto max-w-lg px-6 py-8">
+          <p className="text-sm text-red-600">Invalid link. Please use the link provided by your support team.</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">

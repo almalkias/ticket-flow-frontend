@@ -3,6 +3,7 @@ import Landing from "./pages/public/Landing";
 import Submit from "./pages/public/Submit";
 import Track from "./pages/public/Track";
 import Login from "./pages/staff/Login";
+import Register from "./pages/staff/Register";
 import Dashboard from "./pages/staff/Dashboard";
 import TicketDetail from "./pages/staff/TicketDetail";
 import Agents from "./pages/staff/Agents";
@@ -16,6 +17,7 @@ function App() {
       <Route path="/submit" element={<Submit />} />
       <Route path="/track" element={<Track />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route
         path="/dashboard"
         element={

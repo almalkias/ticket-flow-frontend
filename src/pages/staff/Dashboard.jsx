@@ -38,7 +38,7 @@ function PriorityDot({ priority }) {
 }
 
 function Dashboard() {
-  const { getToken } = useAuth();
+  const { getToken, profile } = useAuth();
   const navigate = useNavigate();
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,106 +53,156 @@ function Dashboard() {
     load();
   }, []);
 
+  const orgUuid = profile?.organization?.uuid;
+  const submitLink = orgUuid
+    ? `${window.location.origin}/submit?org=${orgUuid}`
+    : null;
+  const trackLink = orgUuid
+    ? `${window.location.origin}/track?org=${orgUuid}`
+    : null;
+
   if (loading)
     return (
       <StaffLayout>
         <p className="text-sm text-slate-500">Loading...</p>
       </StaffLayout>
     );
-  if (tickets.length === 0)
-    return (
-      <StaffLayout>
-        <p className="text-sm text-slate-500">No tickets yet.</p>
-      </StaffLayout>
-    );
 
   return (
     <StaffLayout>
-      {/* Desktop table */}
-      <div className="hidden md:block rounded-md border border-slate-200 bg-white shadow-sm overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="bg-slate-50 border-b border-slate-200">
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
-                Reference
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
-                Subject
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
-                Category
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
-                Priority
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
-                Status
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
-                Submitted
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200">
-            {tickets.map((ticket) => (
-              <tr
-                key={ticket.id}
-                onClick={() => navigate(`/tickets/${ticket.id}`)}
-                className="hover:bg-slate-50 cursor-pointer"
-              >
-                <td className="px-4 py-3 font-mono text-xs text-slate-600">
-                  {ticket.reference_number}
-                </td>
-                <td className="px-4 py-3 text-slate-900">{ticket.subject}</td>
-                <td className="px-4 py-3 text-slate-600">
-                  {ticket.category?.name}
-                </td>
-                <td className="px-4 py-3">
-                  <PriorityDot priority={ticket.priority} />
-                </td>
-                <td className="px-4 py-3">
-                  <StatusBadge status={ticket.status} />
-                </td>
-                <td className="px-4 py-3 text-slate-500">
-                  {new Date(ticket.created_at).toLocaleDateString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Mobile cards */}
-      <div className="md:hidden space-y-3">
-        {tickets.map((ticket) => (
-          <div
-            key={ticket.id}
-            onClick={() => navigate(`/tickets/${ticket.id}`)}
-            className="rounded-md border border-slate-200 bg-white p-4 shadow-sm cursor-pointer"
-          >
-            <div className="flex items-start justify-between gap-2">
-              <div className="min-w-0">
-                <p className="font-mono text-xs text-slate-500">
-                  {ticket.reference_number}
-                </p>
-                <p className="mt-0.5 text-sm font-medium text-slate-900 truncate">
-                  {ticket.subject}
-                </p>
-                <p className="mt-0.5 text-xs text-slate-500">
-                  {ticket.category?.name}
-                </p>
-              </div>
-              <StatusBadge status={ticket.status} />
-            </div>
-            <div className="mt-3 flex items-center justify-between">
-              <PriorityDot priority={ticket.priority} />
-              <span className="text-xs text-slate-400">
-                {new Date(ticket.created_at).toLocaleDateString()}
+      {submitLink && (
+        <div className="mb-6 rounded-md border border-slate-200 bg-white p-4 shadow-sm">
+          <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">
+            Share with customers
+          </p>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs text-slate-600 min-w-20">
+                Submit ticket
               </span>
+              <span className="font-mono text-xs text-slate-700 truncate flex-1">
+                {submitLink}
+              </span>
+              <button
+                onClick={() => navigator.clipboard.writeText(submitLink)}
+                className="shrink-0 rounded bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
+              >
+                Copy
+              </button>
+            </div>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs text-slate-600 min-w-20">
+                Track ticket
+              </span>
+              <span className="font-mono text-xs text-slate-700 truncate flex-1">
+                {trackLink}
+              </span>
+              <button
+                onClick={() => navigator.clipboard.writeText(trackLink)}
+                className="shrink-0 rounded bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
+              >
+                Copy
+              </button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      )}
+
+      {tickets.length === 0 && (
+        <p className="text-sm text-slate-500">No tickets yet.</p>
+      )}
+
+      {tickets.length > 0 && (
+        <>
+          {/* Desktop table */}
+          <div className="hidden md:block rounded-md border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-200">
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                    Reference
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                    Subject
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                    Category
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                    Priority
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                    Submitted
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {tickets.map((ticket) => (
+                  <tr
+                    key={ticket.id}
+                    onClick={() => navigate(`/tickets/${ticket.id}`)}
+                    className="hover:bg-slate-50 cursor-pointer"
+                  >
+                    <td className="px-4 py-3 font-mono text-xs text-slate-600">
+                      {ticket.reference_number}
+                    </td>
+                    <td className="px-4 py-3 text-slate-900">
+                      {ticket.subject}
+                    </td>
+                    <td className="px-4 py-3 text-slate-600">
+                      {ticket.category?.name}
+                    </td>
+                    <td className="px-4 py-3">
+                      <PriorityDot priority={ticket.priority} />
+                    </td>
+                    <td className="px-4 py-3">
+                      <StatusBadge status={ticket.status} />
+                    </td>
+                    <td className="px-4 py-3 text-slate-500">
+                      {new Date(ticket.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile cards */}
+          <div className="md:hidden space-y-3">
+            {tickets.map((ticket) => (
+              <div
+                key={ticket.id}
+                onClick={() => navigate(`/tickets/${ticket.id}`)}
+                className="rounded-md border border-slate-200 bg-white p-4 shadow-sm cursor-pointer"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-mono text-xs text-slate-500">
+                      {ticket.reference_number}
+                    </p>
+                    <p className="mt-0.5 text-sm font-medium text-slate-900 truncate">
+                      {ticket.subject}
+                    </p>
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      {ticket.category?.name}
+                    </p>
+                  </div>
+                  <StatusBadge status={ticket.status} />
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  <PriorityDot priority={ticket.priority} />
+                  <span className="text-xs text-slate-400">
+                    {new Date(ticket.created_at).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </StaffLayout>
   );
 }
