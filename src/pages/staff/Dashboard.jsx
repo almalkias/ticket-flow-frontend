@@ -54,11 +54,8 @@ function Dashboard() {
   }, []);
 
   const orgUuid = profile?.organization?.uuid;
-  const submitLink = orgUuid
-    ? `${window.location.origin}/submit?org=${orgUuid}`
-    : null;
-  const trackLink = orgUuid
-    ? `${window.location.origin}/track?org=${orgUuid}`
+  const portalLink = orgUuid
+    ? `${window.location.origin}/portal?org=${orgUuid}`
     : null;
 
   if (loading)
@@ -70,40 +67,21 @@ function Dashboard() {
 
   return (
     <StaffLayout>
-      {submitLink && (
+      {portalLink && (
         <div className="mb-6 rounded-md border border-slate-200 bg-white p-4 shadow-sm">
           <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">
             Share with customers
           </p>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-xs text-slate-600 min-w-20">
-                Submit ticket
-              </span>
-              <span className="font-mono text-xs text-slate-700 truncate flex-1">
-                {submitLink}
-              </span>
-              <button
-                onClick={() => navigator.clipboard.writeText(submitLink)}
-                className="shrink-0 rounded bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
-              >
-                Copy
-              </button>
-            </div>
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-xs text-slate-600 min-w-20">
-                Track ticket
-              </span>
-              <span className="font-mono text-xs text-slate-700 truncate flex-1">
-                {trackLink}
-              </span>
-              <button
-                onClick={() => navigator.clipboard.writeText(trackLink)}
-                className="shrink-0 rounded bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
-              >
-                Copy
-              </button>
-            </div>
+          <div className="flex items-center justify-between gap-3">
+            <span className="font-mono text-xs text-slate-700 truncate flex-1">
+              {portalLink}
+            </span>
+            <button
+              onClick={() => navigator.clipboard.writeText(portalLink)}
+              className="shrink-0 rounded bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
+            >
+              Copy
+            </button>
           </div>
         </div>
       )}

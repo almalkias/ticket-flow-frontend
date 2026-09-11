@@ -48,7 +48,7 @@ function Submit() {
   if (!orgUuid) {
     return (
       <div className="min-h-screen bg-slate-50">
-        <PublicHeader />
+        <PublicHeader backTo="/" />
         <main className="mx-auto max-w-lg px-6 py-8">
           <p className="text-sm text-red-600">Invalid link. Please use the link provided by your support team.</p>
         </main>
@@ -58,7 +58,7 @@ function Submit() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <PublicHeader />
+      <PublicHeader backTo={`/portal?org=${orgUuid}`} />
 
       <main className="mx-auto max-w-lg px-6 py-8">
         {ticket ? (

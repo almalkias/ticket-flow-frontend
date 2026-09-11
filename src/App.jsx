@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/public/Landing";
 import Submit from "./pages/public/Submit";
 import Track from "./pages/public/Track";
+import Portal from "./pages/public/Portal";
 import Login from "./pages/staff/Login";
 import Register from "./pages/staff/Register";
 import Dashboard from "./pages/staff/Dashboard";
@@ -14,6 +15,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/portal" element={<Portal />} />
       <Route path="/submit" element={<Submit />} />
       <Route path="/track" element={<Track />} />
       <Route path="/login" element={<Login />} />
