@@ -76,7 +76,13 @@ function Categories() {
   placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
               />
             </div>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && (
+              <ul className="rounded-md border border-red-200 bg-red-50 p-3 space-y-1">
+                {error.split('\n').map((msg, i) => (
+                  <li key={i} className="text-xs text-red-700">• {msg}</li>
+                ))}
+              </ul>
+            )}
             {success && <p className="text-sm text-green-600">{success}</p>}
             <button
               type="submit"

@@ -409,7 +409,13 @@ function TicketDetail() {
               />
               Internal note
             </label>
-            {replyError && <p className="text-sm text-red-600">{replyError}</p>}
+            {replyError && (
+              <ul className="rounded-md border border-red-200 bg-red-50 p-3 space-y-1">
+                {replyError.split('\n').map((msg, i) => (
+                  <li key={i} className="text-xs text-red-700">• {msg}</li>
+                ))}
+              </ul>
+            )}
             <button
               type="submit"
               disabled={replying || !reply.trim()}

@@ -98,7 +98,13 @@ function Agents() {
   placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
               />
             </div>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && (
+              <ul className="rounded-md border border-red-200 bg-red-50 p-3 space-y-1">
+                {error.split('\n').map((msg, i) => (
+                  <li key={i} className="text-xs text-red-700">• {msg}</li>
+                ))}
+              </ul>
+            )}
             {success && (
               <div className="rounded-md border border-green-200 bg-green-50 p-3">
                 <p className="text-xs font-medium text-green-700">

@@ -23,7 +23,10 @@ export async function apiRequest(path, { method = "GET", body, token } = {}) {
   const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(data?.message || "Request failed");
+    const msg = Array.isArray(data?.message)
+      ? data.message.join('\n')
+      : data?.message || "Request failed";
+    throw new Error(msg);
   }
 
   return data;
