@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../firebase";
 import { useAuth } from "../../context/AuthContext";
 import { apiRequest } from "../../api/client";
 import StaffLayout from "../../components/StaffLayout";
@@ -34,13 +36,15 @@ function Agents() {
     setSuccess(null);
     try {
       const token = await getToken();
-      const result = await apiRequest("/users/agents", {
+      const { email } = form;
+      await apiRequest("/users/agents", {
         method: "POST",
         token,
         body: form,
       });
+      await sendPasswordResetEmail(auth, email);
       setForm({ full_name: "", email: "" });
-      setSuccess(result.passwordResetLink);
+      setSuccess(email);
       await load();
     } catch (err) {
       setError(err.message);
@@ -97,10 +101,9 @@ function Agents() {
             {error && <p className="text-sm text-red-600">{error}</p>}
             {success && (
               <div className="rounded-md border border-green-200 bg-green-50 p-3">
-                <p className="text-xs font-medium text-green-700 mb-1">
-                  Agent created. Share this link with them to set their password:
+                <p className="text-xs font-medium text-green-700">
+                  Agent created. A password setup email has been sent to {success}.
                 </p>
-                <p className="text-xs text-green-800 break-all font-mono">{success}</p>
               </div>
             )}
             <button
