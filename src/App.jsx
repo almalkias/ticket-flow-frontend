@@ -5,6 +5,7 @@ import Track from "./pages/public/Track";
 import Portal from "./pages/public/Portal";
 import Login from "./pages/staff/Login";
 import Register from "./pages/staff/Register";
+import ForgotPassword from "./pages/staff/ForgotPassword";
 import Dashboard from "./pages/staff/Dashboard";
 import TicketDetail from "./pages/staff/TicketDetail";
 import Agents from "./pages/staff/Agents";
@@ -20,6 +21,7 @@ function App() {
       <Route path="/track" element={<Track />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route
         path="/dashboard"
         element={
