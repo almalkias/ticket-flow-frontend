@@ -336,16 +336,18 @@ function TicketDetail() {
                 />
               </div>
             )}
-            {profile?.role === "agent" &&
-              ticket.assigned_to?.id === profile?.id &&
-              ticket.status === "in_progress" && (
-                <ActionButton
-                  label="Mark resolved"
-                  endpoint={`/tickets/${id}/resolve`}
-                  getToken={getToken}
-                  onUpdate={setTicket}
-                />
-              )}
+            {(profile?.role === "agent"
+              ? ticket.assigned_to?.id === profile?.id &&
+                ticket.status === "in_progress"
+              : ticket.status === "in_progress" ||
+                ticket.status === "open") && (
+              <ActionButton
+                label="Mark resolved"
+                endpoint={`/tickets/${id}/resolve`}
+                getToken={getToken}
+                onUpdate={setTicket}
+              />
+            )}
           </div>
         </div>
 
