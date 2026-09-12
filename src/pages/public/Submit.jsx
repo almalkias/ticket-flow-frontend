@@ -27,9 +27,12 @@ function Submit() {
     setSubmitting(true);
     setError(null);
     try {
+      const body = { ...form, org_uuid: orgUuid };
+      if (form.category_id) body.category_id = Number(form.category_id);
+      else delete body.category_id;
       const created = await apiRequest("/tickets", {
         method: "POST",
-        body: { ...form, category_id: Number(form.category_id), org_uuid: orgUuid },
+        body,
       });
       setTicket(created);
     } catch (err) {
@@ -126,24 +129,27 @@ function Submit() {
                 />
               </div>
 
-              <div>
-                <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Category
-                </label>
-                <select
-                  name="category_id"
-                  value={form.category_id}
-                  onChange={handleChange}
-                  className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
-                >
-                  <option value="">Select a category</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {categories.length > 0 && (
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-slate-600">
+                    Category{" "}
+                    <span className="font-normal text-slate-400">(optional)</span>
+                  </label>
+                  <select
+                    name="category_id"
+                    value={form.category_id}
+                    onChange={handleChange}
+                    className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  >
+                    <option value="">Select a category</option>
+                    {categories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
