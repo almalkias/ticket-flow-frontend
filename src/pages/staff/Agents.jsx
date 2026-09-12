@@ -49,11 +49,12 @@ function Agents() {
     }
   }
 
-  async function handleDeactivate(id) {
+  async function handleUpdate(id, is_active) {
     const token = await getToken();
-    await apiRequest(`/users/agents/${id}/deactivate`, {
+    await apiRequest(`/users/agents/${id}`, {
       method: "PATCH",
       token,
+      body: { is_active },
     });
     await load();
   }
@@ -160,12 +161,19 @@ function Agents() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      {agent.is_active && (
+                      {agent.is_active ? (
                         <button
-                          onClick={() => handleDeactivate(agent.id)}
+                          onClick={() => handleUpdate(agent.id, false)}
                           className="text-sm font-medium text-red-600 hover:text-red-700"
                         >
                           Deactivate
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleUpdate(agent.id, true)}
+                          className="text-sm font-medium text-green-600 hover:text-green-700"
+                        >
+                          Reactivate
                         </button>
                       )}
                     </td>

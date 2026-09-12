@@ -45,11 +45,12 @@ function Categories() {
     }
   }
 
-  async function handleDeactivate(id) {
+  async function handleUpdate(id, is_active) {
     const token = await getToken();
-    await apiRequest(`/categories/${id}/deactivate`, {
+    await apiRequest(`/categories/${id}`, {
       method: "PATCH",
       token,
+      body: { is_active },
     });
     await load();
   }
@@ -126,12 +127,19 @@ function Categories() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      {cat.is_active && (
+                      {cat.is_active ? (
                         <button
-                          onClick={() => handleDeactivate(cat.id)}
+                          onClick={() => handleUpdate(cat.id, false)}
                           className="text-sm font-medium text-red-600 hover:text-red-700"
                         >
                           Deactivate
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleUpdate(cat.id, true)}
+                          className="text-sm font-medium text-green-600 hover:text-green-700"
+                        >
+                          Reactivate
                         </button>
                       )}
                     </td>
