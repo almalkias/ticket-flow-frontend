@@ -20,7 +20,7 @@ function Portal() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <PublicHeader />
+      <PublicHeader backTo={`/portal?org=${orgUuid}`} />
 
       <main className="flex-1 flex items-center justify-center px-6">
         <div className="w-full max-w-sm text-center">
