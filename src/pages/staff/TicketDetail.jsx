@@ -152,7 +152,11 @@ function CategoryButton({ ticket, getToken, onUpdate }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    apiRequest("/categories/public").then(setCategories);
+    getToken().then((token) =>
+      apiRequest("/categories", { token }).then((data) =>
+        setCategories(data.filter((c) => c.is_active)),
+      ),
+    );
   }, []);
 
   async function handle() {
