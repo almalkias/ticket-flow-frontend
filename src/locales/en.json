@@ -31,10 +31,30 @@
     "urgent": "Urgent"
   },
   "landing": {
-    "welcome": "Welcome to TicketFlow",
-    "tagline": "Manage your support tickets and team in one place.",
+    "heroTitle": "Simple support for your customers",
+    "heroSubtitle": "Set up a support portal for your organization in minutes. Your customers submit and track requests without creating an account — your team manages everything from one dashboard.",
     "createOrg": "Create your organization",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "howTitle": "How it works",
+    "step1Title": "Create your organization",
+    "step1Text": "Register with your name, email, and organization name. You become the admin of your own workspace.",
+    "step2Title": "Share your portal link",
+    "step2Text": "Every organization gets a unique customer portal link. Share it on your website, email signature, or anywhere your customers can find it.",
+    "step3Title": "Manage requests together",
+    "step3Text": "Invite agents, assign tickets, and reply to customers — all from a single dashboard, in English or Arabic.",
+    "featuresTitle": "Why TicketFlow",
+    "feat1Title": "No customer accounts",
+    "feat1Text": "Customers submit a request with just their name and email, and track it with a reference number.",
+    "feat2Title": "Built for teams",
+    "feat2Text": "Invite agents, assign tickets, and keep internal notes that customers never see.",
+    "feat3Title": "Track every request",
+    "feat3Text": "Statuses move from Open to In progress, Resolved, and Closed — so nothing gets lost.",
+    "feat4Title": "Fully bilingual",
+    "feat4Text": "The entire experience works in English and Arabic, including right-to-left layout.",
+    "feat5Title": "Private by design",
+    "feat5Text": "Each organization's data is completely isolated from every other organization.",
+    "ctaTitle": "Ready to get started?",
+    "ctaText": "Create your organization and share your portal link in minutes."
   },
   "portal": {
     "title": "How can we help?",
