@@ -62,7 +62,8 @@
     "find": "Find request",
     "addReply": "Add a reply",
     "sendReply": "Send reply",
-    "closedNote": "This request has been closed and is no longer accepting replies."
+    "closedNote": "This request has been closed and is no longer accepting replies.",
+    "another": "Check another request"
   },
   "login": {
     "title": "Staff Login",

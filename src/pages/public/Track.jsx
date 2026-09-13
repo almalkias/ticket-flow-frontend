@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { apiRequest } from "../../api/client";
@@ -38,23 +38,54 @@ function Track() {
     );
   }
 
-  async function handleLookup(e) {
-    e.preventDefault();
+  async function lookup(email, reference, isRestore = false) {
     setSubmitting(true);
     setError(null);
     try {
       const found = await apiRequest(
-        `/tickets/track?email=${encodeURIComponent(form.email)}&reference=${encodeURIComponent(form.reference)}&org=${orgUuid}`,
+        `/tickets/track?email=${encodeURIComponent(email)}&reference=${encodeURIComponent(reference)}&org=${orgUuid}`,
       );
       const msgs = await apiRequest(`/tickets/${found.id}/messages`);
       setTicket(found);
       setMessages(msgs);
+      sessionStorage.setItem(
+        `track_${orgUuid}`,
+        JSON.stringify({ email, reference }),
+      );
     } catch (err) {
-      setError(err.message);
+      if (isRestore) {
+        sessionStorage.removeItem(`track_${orgUuid}`);
+      } else {
+        setError(err.message);
+      }
     } finally {
       setSubmitting(false);
     }
   }
+
+  function handleLookup(e) {
+    e.preventDefault();
+    lookup(form.email, form.reference);
+  }
+
+  function handleReset() {
+    sessionStorage.removeItem(`track_${orgUuid}`);
+    setTicket(null);
+    setMessages([]);
+    setForm({ email: "", reference: "" });
+    setError(null);
+  }
+
+  useEffect(() => {
+    if (!orgUuid) return;
+    const saved = sessionStorage.getItem(`track_${orgUuid}`);
+    if (saved) {
+      const { email, reference } = JSON.parse(saved);
+      setForm({ email, reference });
+      lookup(email, reference, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orgUuid]);
 
   async function handleReply(e) {
     e.preventDefault();
@@ -136,6 +167,23 @@ function Track() {
           </>
         ) : (
           <>
+            <button
+              onClick={handleReset}
+              className="mb-4 inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900"
+            >
+              <svg
+                className="h-4 w-4 rtl:rotate-180"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              {t("track.another")}
+            </button>
             <div className="flex items-start justify-between">
               <div>
                 <p className="font-mono text-xs text-slate-500">
