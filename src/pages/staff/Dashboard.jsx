@@ -97,22 +97,22 @@ function Dashboard() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                  <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
                     Reference
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                  <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
                     Subject
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                  <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
                     Category
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                  <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
                     Priority
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                  <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-slate-500">
+                  <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
                     Submitted
                   </th>
                 </tr>

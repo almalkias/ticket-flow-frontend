@@ -102,13 +102,13 @@ function Categories() {
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
                   <th
-                    className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide
+                    className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide
   text-slate-500"
                   >
                     Name
                   </th>
                   <th
-                    className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wide
+                    className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide
   text-slate-500"
                   >
                     Status
@@ -132,7 +132,7 @@ function Categories() {
                         {cat.is_active ? "Active" : "Inactive"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-end">
                       {cat.is_active ? (
                         <button
                           onClick={() => handleUpdate(cat.id, false)}

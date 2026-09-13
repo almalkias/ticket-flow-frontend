@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 import { apiRequest } from "../api/client";
 
 function StaffLayout({ children }) {
   const { logout, profile, getToken } = useAuth();
+  const { lang, toggleLanguage } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState([]);
@@ -113,7 +115,7 @@ function StaffLayout({ children }) {
           </div>
           <button
             onClick={handleLogout}
-            className="mt-1 w-full rounded-md px-3 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50"
+            className="mt-1 w-full rounded-md px-3 py-2 text-start text-sm font-medium text-red-600 hover:bg-red-50"
           >
             Sign out
           </button>
@@ -132,12 +134,20 @@ function StaffLayout({ children }) {
               <p className="text-xs text-slate-500">{profile.full_name}</p>
             )}
           </div>
-          <button
-            onClick={handleLogout}
-            className="text-sm font-medium text-red-600"
-          >
-            Sign out
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleLanguage}
+              className="text-xs font-medium text-slate-500 hover:text-slate-900 border border-slate-200 rounded px-2 py-1"
+            >
+              {lang === "en" ? "ع" : "EN"}
+            </button>
+            <button
+              onClick={handleLogout}
+              className="text-sm font-medium text-red-600"
+            >
+              Sign out
+            </button>
+          </div>
         </div>
 
         {/* Mobile nav links */}
@@ -151,6 +161,13 @@ function StaffLayout({ children }) {
         {/* Desktop top bar */}
         <header className="hidden md:flex bg-white border-b border-slate-200 px-6 py-3 items-center justify-between">
           <h2 className="text-sm font-medium text-slate-700">{pageTitle}</h2>
+          <div className="flex items-center gap-3">
+          <button
+            onClick={toggleLanguage}
+            className="text-xs font-medium text-slate-500 hover:text-slate-900 border border-slate-200 rounded px-2 py-1"
+          >
+            {lang === "en" ? "ع" : "EN"}
+          </button>
           <div className="relative" ref={bellRef}>
             <button
               onClick={() => setBellOpen((o) => !o)}
@@ -170,8 +187,7 @@ function StaffLayout({ children }) {
               </svg>
               {unreadCount > 0 && (
                 <span
-                  className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 
-  text-[10px] font-medium text-white"
+                  className="absolute -top-0.5 -end-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white"
                 >
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
@@ -179,7 +195,7 @@ function StaffLayout({ children }) {
             </button>
 
             {bellOpen && (
-              <div className="absolute right-0 top-full mt-1 w-80 rounded-md border border-slate-200 bg-white z-50">
+              <div className="absolute end-0 top-full mt-1 w-80 rounded-md border border-slate-200 bg-white z-50">
                 <div className="border-b border-slate-200 px-4 py-2.5">
                   <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
                     Notifications
@@ -216,6 +232,7 @@ function StaffLayout({ children }) {
                 </div>
               </div>
             )}
+          </div>
           </div>
         </header>
 
