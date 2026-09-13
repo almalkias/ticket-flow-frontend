@@ -79,6 +79,7 @@
     "title": "Track your request",
     "subtitle": "Enter your email and reference number to check your request status.",
     "reference": "Reference number",
+    "emailHint": "Use the same email address you entered when submitting the request.",
     "find": "Find request",
     "addReply": "Add a reply",
     "sendReply": "Send reply",
@@ -121,6 +122,14 @@
   },
   "dashboard": {
     "share": "Share with customers",
+    "shareHint": "Your customers use this link to submit and track support requests.",
+    "gettingStarted": "Getting started",
+    "gsIntro": "Your workspace is ready. Complete these steps to start receiving requests:",
+    "gs1": "Add categories to organize incoming requests (optional)",
+    "gs1Link": "Go to Categories",
+    "gs2": "Invite agents to your team — each receives an email to set their own password (optional)",
+    "gs2Link": "Go to Agents",
+    "gs3": "Share your portal link above with your customers. New requests will appear here, and you'll be notified.",
     "noTickets": "No tickets yet.",
     "reference": "Reference",
     "subject": "Subject",
@@ -143,10 +152,12 @@
     "conversation": "Conversation",
     "internalNoteTag": "(internal note)",
     "addReply": "Add a reply",
-    "internalNote": "Internal note"
+    "internalNote": "Internal note",
+    "internalHint": "Visible to your team only — the customer will never see this note."
   },
   "agents": {
     "add": "Add agent",
+    "emailHint": "The agent will receive an email at this address to set their own password.",
     "created": "Agent created. A password setup email has been sent to {{email}}.",
     "createBtn": "Create agent",
     "creating": "Creating...",
@@ -154,6 +165,7 @@
   },
   "categories": {
     "add": "Add category",
+    "deactivateHint": "Deactivated categories are hidden from the customer form; existing tickets keep their category.",
     "created": "Category created.",
     "createBtn": "Create category",
     "creating": "Creating...",

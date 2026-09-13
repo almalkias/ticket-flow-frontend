@@ -467,6 +467,9 @@ function TicketDetail() {
               {t("common.send")}
             </button>
           </div>
+          {isInternal && (
+            <p className="text-xs text-amber-700">{t("ticket.internalHint")}</p>
+          )}
         </form>
       )}
     </StaffLayout>

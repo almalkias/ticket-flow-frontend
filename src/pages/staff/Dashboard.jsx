@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { apiRequest } from "../../api/client";
@@ -87,12 +87,61 @@ function Dashboard() {
               {t("common.copy")}
             </button>
           </div>
+          <p className="mt-2 text-xs text-slate-400">
+            {t("dashboard.shareHint")}
+          </p>
         </div>
       )}
 
-      {tickets.length === 0 && (
-        <p className="text-sm text-slate-500">{t("dashboard.noTickets")}</p>
-      )}
+      {tickets.length === 0 &&
+        (profile?.role === "admin" ? (
+          <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+            <h2 className="text-base font-semibold text-slate-900">
+              {t("dashboard.gettingStarted")}
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              {t("dashboard.gsIntro")}
+            </p>
+            <ol className="mt-4 space-y-4">
+              <li className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-medium text-slate-600">
+                  1
+                </span>
+                <div>
+                  <p className="text-sm text-slate-700">{t("dashboard.gs1")}</p>
+                  <Link
+                    to="/categories"
+                    className="text-sm font-medium text-slate-900 hover:underline"
+                  >
+                    {t("dashboard.gs1Link")}
+                  </Link>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-medium text-slate-600">
+                  2
+                </span>
+                <div>
+                  <p className="text-sm text-slate-700">{t("dashboard.gs2")}</p>
+                  <Link
+                    to="/agents"
+                    className="text-sm font-medium text-slate-900 hover:underline"
+                  >
+                    {t("dashboard.gs2Link")}
+                  </Link>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-medium text-slate-600">
+                  3
+                </span>
+                <p className="text-sm text-slate-700">{t("dashboard.gs3")}</p>
+              </li>
+            </ol>
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">{t("dashboard.noTickets")}</p>
+        ))}
 
       {tickets.length > 0 && (
         <>

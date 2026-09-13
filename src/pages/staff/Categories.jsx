@@ -95,6 +95,9 @@ function Categories() {
               {submitting ? t("categories.creating") : t("categories.createBtn")}
             </button>
           </form>
+          <p className="mt-3 text-xs text-slate-400">
+            {t("categories.deactivateHint")}
+          </p>
         </div>
 
         {/* Categories table */}
