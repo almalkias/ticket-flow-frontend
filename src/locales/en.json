@@ -1,0 +1,141 @@
+{
+  "common": {
+    "email": "Email",
+    "password": "Password",
+    "show": "Show",
+    "hide": "Hide",
+    "invalidLink": "Invalid link. Please use the link provided by your support team.",
+    "noMessages": "No messages yet.",
+    "name": "Name",
+    "fullName": "Full name",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "deactivate": "Deactivate",
+    "reactivate": "Reactivate",
+    "loading": "Loading...",
+    "save": "Save",
+    "send": "Send",
+    "copy": "Copy"
+  },
+  "status": {
+    "open": "Open",
+    "in_progress": "In progress",
+    "resolved": "Resolved",
+    "closed": "Closed"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "urgent": "Urgent"
+  },
+  "landing": {
+    "welcome": "Welcome to TicketFlow",
+    "tagline": "Manage your support tickets and team in one place.",
+    "createOrg": "Create your organization",
+    "signIn": "Sign in"
+  },
+  "portal": {
+    "title": "How can we help?",
+    "subtitle": "Submit a new request or track an existing one.",
+    "submit": "Submit a request",
+    "track": "Track my request"
+  },
+  "submit": {
+    "title": "Submit a Request",
+    "subtitle": "Describe the issue and we will get back to you.",
+    "fullName": "Full name",
+    "subject": "Subject",
+    "category": "Category",
+    "optional": "optional",
+    "selectCategory": "Select a category",
+    "description": "Description",
+    "submitBtn": "Submit request",
+    "successTitle": "Request submitted",
+    "successNote": "Save this reference number — you will need it to track your request:"
+  },
+  "track": {
+    "title": "Track your request",
+    "subtitle": "Enter your email and reference number to check your request status.",
+    "reference": "Reference number",
+    "find": "Find request",
+    "addReply": "Add a reply",
+    "sendReply": "Send reply",
+    "closedNote": "This request has been closed and is no longer accepting replies."
+  },
+  "login": {
+    "title": "Staff Login",
+    "forgot": "Forgot password?",
+    "signIn": "Sign in",
+    "invalidCredentials": "Invalid email or password",
+    "newHere": "New here?",
+    "createOrg": "Create your organization"
+  },
+  "register": {
+    "title": "Create your organization",
+    "orgName": "Organization name",
+    "yourName": "Your full name",
+    "createBtn": "Create organization",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "forgot": {
+    "title": "Reset your password",
+    "sent": "If an account exists for {{email}}, you'll receive a reset link shortly.",
+    "spam": "Check your spam folder if you don't see it.",
+    "error": "Something went wrong. Please try again.",
+    "send": "Send reset link",
+    "back": "Back to sign in"
+  },
+  "layout": {
+    "appName": "TicketFlow",
+    "dashboard": "Dashboard",
+    "agents": "Agents",
+    "categories": "Categories",
+    "ticketDetail": "Ticket Detail",
+    "signOut": "Sign out",
+    "notifications": "Notifications",
+    "noNotifications": "No notifications"
+  },
+  "dashboard": {
+    "share": "Share with customers",
+    "noTickets": "No tickets yet.",
+    "reference": "Reference",
+    "subject": "Subject",
+    "category": "Category",
+    "priority": "Priority",
+    "submitted": "Submitted"
+  },
+  "ticket": {
+    "customer": "Customer",
+    "category": "Category",
+    "priority": "Priority",
+    "assignedTo": "Assigned to",
+    "unassigned": "Unassigned",
+    "description": "Description",
+    "assignTo": "Assign to",
+    "selectAgent": "Select agent...",
+    "select": "Select...",
+    "closeTicket": "Close ticket",
+    "markResolved": "Mark resolved",
+    "conversation": "Conversation",
+    "internalNoteTag": "(internal note)",
+    "addReply": "Add a reply",
+    "internalNote": "Internal note"
+  },
+  "agents": {
+    "add": "Add agent",
+    "created": "Agent created. A password setup email has been sent to {{email}}.",
+    "createBtn": "Create agent",
+    "creating": "Creating...",
+    "empty": "No agents yet."
+  },
+  "categories": {
+    "add": "Add category",
+    "created": "Category created.",
+    "createBtn": "Create category",
+    "creating": "Creating...",
+    "empty": "No categories yet."
+  }
+}

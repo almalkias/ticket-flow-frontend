@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { apiRequest } from "../../api/client";
 import StaffLayout from "../../components/StaffLayout";
@@ -12,11 +13,12 @@ const statusStyles = {
 };
 
 function StatusBadge({ status }) {
+  const { t } = useTranslation();
   return (
     <span
       className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusStyles[status]}`}
     >
-      {status.replace("_", " ")}
+      {t(`status.${status}`)}
     </span>
   );
 }
@@ -51,6 +53,7 @@ function ActionButton({ label, endpoint, getToken, onUpdate, danger }) {
 }
 
 function AssignButton({ ticket, getToken, onUpdate }) {
+  const { t } = useTranslation();
   const [agents, setAgents] = useState([]);
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(false);
@@ -79,13 +82,15 @@ function AssignButton({ ticket, getToken, onUpdate }) {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="w-20 shrink-0 text-xs text-slate-500">Assign to</span>
+      <span className="w-20 shrink-0 text-xs text-slate-500">
+        {t("ticket.assignTo")}
+      </span>
       <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
         className="flex-1 rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
       >
-        <option value="">Select agent...</option>
+        <option value="">{t("ticket.selectAgent")}</option>
         {agents.map((a) => (
           <option key={a.id} value={a.id}>
             {a.full_name}
@@ -97,13 +102,14 @@ function AssignButton({ ticket, getToken, onUpdate }) {
         disabled={loading || !selected}
         className="shrink-0 rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
       >
-        {loading ? "..." : "Save"}
+        {loading ? "..." : t("common.save")}
       </button>
     </div>
   );
 }
 
 function PriorityButton({ ticket, getToken, onUpdate }) {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(ticket.priority);
   const [loading, setLoading] = useState(false);
 
@@ -124,29 +130,32 @@ function PriorityButton({ ticket, getToken, onUpdate }) {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="w-20 shrink-0 text-xs text-slate-500">Priority</span>
+      <span className="w-20 shrink-0 text-xs text-slate-500">
+        {t("ticket.priority")}
+      </span>
       <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
         className="flex-1 rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
       >
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-        <option value="urgent">Urgent</option>
+        <option value="low">{t("priority.low")}</option>
+        <option value="medium">{t("priority.medium")}</option>
+        <option value="high">{t("priority.high")}</option>
+        <option value="urgent">{t("priority.urgent")}</option>
       </select>
       <button
         onClick={handle}
         disabled={loading}
         className="shrink-0 rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
       >
-        {loading ? "..." : "Save"}
+        {loading ? "..." : t("common.save")}
       </button>
     </div>
   );
 }
 
 function CategoryButton({ ticket, getToken, onUpdate }) {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [selected, setSelected] = useState(ticket.category?.id ?? "");
   const [loading, setLoading] = useState(false);
@@ -177,13 +186,15 @@ function CategoryButton({ ticket, getToken, onUpdate }) {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="w-20 shrink-0 text-xs text-slate-500">Category</span>
+      <span className="w-20 shrink-0 text-xs text-slate-500">
+        {t("ticket.category")}
+      </span>
       <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
         className="flex-1 rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
       >
-        <option value="">Select...</option>
+        <option value="">{t("ticket.select")}</option>
         {categories.map((c) => (
           <option key={c.id} value={c.id}>
             {c.name}
@@ -195,13 +206,14 @@ function CategoryButton({ ticket, getToken, onUpdate }) {
         disabled={loading || !selected}
         className="shrink-0 rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
       >
-        {loading ? "..." : "Save"}
+        {loading ? "..." : t("common.save")}
       </button>
     </div>
   );
 }
 
 function TicketDetail() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { getToken, profile } = useAuth();
   const [ticket, setTicket] = useState(null);
@@ -229,7 +241,7 @@ function TicketDetail() {
   if (loading)
     return (
       <StaffLayout>
-        <p className="text-sm text-slate-500">Loading...</p>
+        <p className="text-sm text-slate-500">{t("common.loading")}</p>
       </StaffLayout>
     );
 
@@ -274,29 +286,33 @@ function TicketDetail() {
 
           <div className="mt-4 grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
             <div>
-              <p className="text-xs text-slate-500">Customer</p>
+              <p className="text-xs text-slate-500">{t("ticket.customer")}</p>
               <p className="text-slate-900">{ticket.customer_name}</p>
               <p className="text-xs text-slate-500">{ticket.customer_email}</p>
             </div>
             <div>
-              <p className="text-xs text-slate-500">Category</p>
+              <p className="text-xs text-slate-500">{t("ticket.category")}</p>
               <p className="text-slate-900">{ticket.category?.name ?? "—"}</p>
             </div>
             <div>
-              <p className="text-xs text-slate-500">Priority</p>
-              <p className="text-slate-900">{ticket.priority}</p>
+              <p className="text-xs text-slate-500">{t("ticket.priority")}</p>
+              <p className="text-slate-900">
+                {t(`priority.${ticket.priority}`)}
+              </p>
             </div>
             <div>
-              <p className="text-xs text-slate-500">Assigned to</p>
+              <p className="text-xs text-slate-500">{t("ticket.assignedTo")}</p>
               <p className="text-slate-900">
-                {ticket.assigned_to?.full_name ?? "Unassigned"}
+                {ticket.assigned_to?.full_name ?? t("ticket.unassigned")}
               </p>
             </div>
           </div>
 
           {ticket.description && (
             <div className="mt-4 border-t border-slate-100 pt-4">
-              <p className="text-xs text-slate-500 mb-1">Description</p>
+              <p className="text-xs text-slate-500 mb-1">
+                {t("ticket.description")}
+              </p>
               <p className="text-sm text-slate-700 whitespace-pre-wrap">
                 {ticket.description}
               </p>
@@ -328,7 +344,7 @@ function TicketDetail() {
             {profile?.role === "admin" && ticket.status === "resolved" && (
               <div className="pt-1">
                 <ActionButton
-                  label="Close ticket"
+                  label={t("ticket.closeTicket")}
                   endpoint={`/tickets/${id}/close`}
                   getToken={getToken}
                   onUpdate={setTicket}
@@ -342,7 +358,7 @@ function TicketDetail() {
               : ticket.status === "in_progress" ||
                 ticket.status === "open") && (
               <ActionButton
-                label="Mark resolved"
+                label={t("ticket.markResolved")}
                 endpoint={`/tickets/${id}/resolve`}
                 getToken={getToken}
                 onUpdate={setTicket}
@@ -353,9 +369,11 @@ function TicketDetail() {
 
         {/* Conversation */}
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-slate-900">Conversation</h3>
+          <h3 className="text-sm font-semibold text-slate-900">
+            {t("ticket.conversation")}
+          </h3>
           {messages.length === 0 && (
-            <p className="text-sm text-slate-500">No messages yet.</p>
+            <p className="text-sm text-slate-500">{t("common.noMessages")}</p>
           )}
           {messages.map((msg) => (
             <div
@@ -372,8 +390,8 @@ function TicketDetail() {
                 <span className="font-medium text-slate-700">
                   {msg.sender_name}
                   {msg.is_internal && (
-                    <span className="ml-2 text-xs text-amber-700">
-                      (internal note)
+                    <span className="ms-2 text-xs text-amber-700">
+                      {t("ticket.internalNoteTag")}
                     </span>
                   )}
                 </span>
@@ -392,7 +410,9 @@ function TicketDetail() {
           onSubmit={handleReply}
           className="mt-6 rounded-md border border-slate-200 bg-white p-5 shadow-sm space-y-3"
         >
-          <h3 className="text-sm font-semibold text-slate-900">Add a reply</h3>
+          <h3 className="text-sm font-semibold text-slate-900">
+            {t("ticket.addReply")}
+          </h3>
           <textarea
             rows={4}
             value={reply}
@@ -407,7 +427,7 @@ function TicketDetail() {
                 onChange={(e) => setIsInternal(e.target.checked)}
                 className="rounded border-slate-300"
               />
-              Internal note
+              {t("ticket.internalNote")}
             </label>
             {replyError && (
               <ul className="rounded-md border border-red-200 bg-red-50 p-3 space-y-1">
@@ -421,7 +441,7 @@ function TicketDetail() {
               disabled={replying || !reply.trim()}
               className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
             >
-              Send
+              {t("common.send")}
             </button>
           </div>
         </form>

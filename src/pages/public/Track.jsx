@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "../../api/client";
 import PublicHeader from "../../components/PublicHeader";
 
 function Track() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const orgUuid = searchParams.get("org");
   const [form, setForm] = useState({ email: "", reference: "" });
@@ -31,7 +33,7 @@ function Track() {
         className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium 
   ${statusStyles[status]}`}
       >
-        {status.replace("_", " ")}
+        {t(`status.${status}`)}
       </span>
     );
   }
@@ -84,12 +86,9 @@ function Track() {
         {!ticket ? (
           <>
             <h2 className="text-xl font-semibold text-slate-900">
-              Track your request
+              {t("track.title")}
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Enter your email and reference number to check your request
-              status.
-            </p>
+            <p className="mt-1 text-sm text-slate-500">{t("track.subtitle")}</p>
 
             <form
               className="mt-6 space-y-4 rounded-md border border-slate-200 bg-white p-5 shadow-sm"
@@ -97,7 +96,7 @@ function Track() {
             >
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Email
+                  {t("common.email")}
                 </label>
                 <input
                   type="email"
@@ -111,7 +110,7 @@ function Track() {
 
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Reference number
+                  {t("track.reference")}
                 </label>
                 <input
                   type="text"
@@ -131,7 +130,7 @@ function Track() {
                 className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800
   disabled:opacity-50"
               >
-                Find request
+                {t("track.find")}
               </button>
             </form>
           </>
@@ -177,14 +176,14 @@ function Track() {
               ))}
 
               {messages.length === 0 && (
-                <p className="text-sm text-slate-500">No messages yet.</p>
+                <p className="text-sm text-slate-500">{t("common.noMessages")}</p>
               )}
             </div>
 
             {ticket.status !== "closed" ? (
               <form className="mt-6 space-y-3" onSubmit={handleReply}>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Add a reply
+                  {t("track.addReply")}
                 </label>
                 <textarea
                   rows={4}
@@ -199,12 +198,12 @@ function Track() {
                   className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 
   disabled:opacity-50"
                 >
-                  Send reply
+                  {t("track.sendReply")}
                 </button>
               </form>
             ) : (
               <p className="mt-6 text-sm text-slate-500">
-                This request has been closed and is no longer accepting replies.
+                {t("track.closedNote")}
               </p>
             )}
           </>

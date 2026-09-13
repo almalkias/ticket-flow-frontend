@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { apiRequest } from "../api/client";
 
 function StaffLayout({ children }) {
+  const { t } = useTranslation();
   const { logout, profile, getToken } = useAuth();
   const { lang, toggleLanguage } = useLanguage();
   const location = useLocation();
@@ -84,13 +86,13 @@ function StaffLayout({ children }) {
 
   const pageTitle =
     location.pathname === "/dashboard"
-      ? "Dashboard"
+      ? t("layout.dashboard")
       : location.pathname === "/agents"
-        ? "Agents"
+        ? t("layout.agents")
         : location.pathname === "/categories"
-          ? "Categories"
+          ? t("layout.categories")
           : location.pathname.startsWith("/tickets/")
-            ? "Ticket Detail"
+            ? t("layout.ticketDetail")
             : "";
 
   return (
@@ -99,14 +101,15 @@ function StaffLayout({ children }) {
       <aside className="hidden md:flex w-56 shrink-0 border-r border-slate-200 bg-white flex-col">
         <div className="px-4 py-4 border-b border-slate-200">
           <h1 className="text-base font-semibold text-slate-900">
-            Maintenance
+            {t("layout.appName")}
           </h1>
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
-          {navItem("Dashboard", "/dashboard")}
-          {profile?.role === "admin" && navItem("Agents", "/agents")}
-          {profile?.role === "admin" && navItem("Categories", "/categories")}
+          {navItem(t("layout.dashboard"), "/dashboard")}
+          {profile?.role === "admin" && navItem(t("layout.agents"), "/agents")}
+          {profile?.role === "admin" &&
+            navItem(t("layout.categories"), "/categories")}
         </nav>
 
         <div className="p-3 border-t border-slate-200">
@@ -117,7 +120,7 @@ function StaffLayout({ children }) {
             onClick={handleLogout}
             className="mt-1 w-full rounded-md px-3 py-2 text-start text-sm font-medium text-red-600 hover:bg-red-50"
           >
-            Sign out
+            {t("layout.signOut")}
           </button>
         </div>
       </aside>
@@ -128,7 +131,7 @@ function StaffLayout({ children }) {
         <div className="md:hidden bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
           <div>
             <h1 className="text-base font-semibold text-slate-900">
-              Maintenance
+              {t("layout.appName")}
             </h1>
             {profile?.full_name && (
               <p className="text-xs text-slate-500">{profile.full_name}</p>
@@ -145,17 +148,18 @@ function StaffLayout({ children }) {
               onClick={handleLogout}
               className="text-sm font-medium text-red-600"
             >
-              Sign out
+              {t("layout.signOut")}
             </button>
           </div>
         </div>
 
         {/* Mobile nav links */}
         <div className="md:hidden bg-white border-b border-slate-200 px-4 py-2 flex gap-4 overflow-x-auto">
-          {mobileNavItem("Dashboard", "/dashboard")}
-          {profile?.role === "admin" && mobileNavItem("Agents", "/agents")}
+          {mobileNavItem(t("layout.dashboard"), "/dashboard")}
           {profile?.role === "admin" &&
-            mobileNavItem("Categories", "/categories")}
+            mobileNavItem(t("layout.agents"), "/agents")}
+          {profile?.role === "admin" &&
+            mobileNavItem(t("layout.categories"), "/categories")}
         </div>
 
         {/* Desktop top bar */}
@@ -187,7 +191,7 @@ function StaffLayout({ children }) {
               </svg>
               {unreadCount > 0 && (
                 <span
-                  className="absolute -top-0.5 -end-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white"
+                  className="absolute -top-0.5 -inset-e-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white"
                 >
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
@@ -195,16 +199,16 @@ function StaffLayout({ children }) {
             </button>
 
             {bellOpen && (
-              <div className="absolute end-0 top-full mt-1 w-80 rounded-md border border-slate-200 bg-white z-50">
+              <div className="absolute inset-e-0 top-full mt-1 w-80 rounded-md border border-slate-200 bg-white z-50">
                 <div className="border-b border-slate-200 px-4 py-2.5">
                   <span className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                    Notifications
+                    {t("layout.notifications")}
                   </span>
                 </div>
                 <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
                   {notifications.length === 0 ? (
                     <p className="px-4 py-6 text-center text-sm text-slate-500">
-                      No notifications
+                      {t("layout.noNotifications")}
                     </p>
                   ) : (
                     notifications.slice(0, 20).map((n) => (

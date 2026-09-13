@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { apiRequest } from "../../api/client";
 import StaffLayout from "../../components/StaffLayout";
 
 function Categories() {
+  const { t } = useTranslation();
   const { getToken } = useAuth();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +38,7 @@ function Categories() {
         body: form,
       });
       setForm({ name: "" });
-      setSuccess("Category created.");
+      setSuccess(t("categories.created"));
       await load();
     } catch (err) {
       setError(err.message);
@@ -61,12 +63,12 @@ function Categories() {
         {/* Create category form */}
         <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
           <h2 className="text-base font-semibold text-slate-900 mb-4">
-            Add category
+            {t("categories.add")}
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="mb-1 block text-xs font-medium text-slate-600">
-                Name
+                {t("common.name")}
               </label>
               <input
                 type="text"
@@ -90,7 +92,7 @@ function Categories() {
               className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800
   disabled:opacity-50"
             >
-              {submitting ? "Creating..." : "Create category"}
+              {submitting ? t("categories.creating") : t("categories.createBtn")}
             </button>
           </form>
         </div>
@@ -105,13 +107,13 @@ function Categories() {
                     className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide
   text-slate-500"
                   >
-                    Name
+                    {t("common.name")}
                   </th>
                   <th
                     className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide
   text-slate-500"
                   >
-                    Status
+                    {t("common.status")}
                   </th>
                   <th className="px-4 py-3"></th>
                 </tr>
@@ -129,7 +131,9 @@ function Categories() {
       : "bg-slate-100 text-slate-600 border-slate-200"
   }`}
                       >
-                        {cat.is_active ? "Active" : "Inactive"}
+                        {cat.is_active
+                          ? t("common.active")
+                          : t("common.inactive")}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-end">
@@ -138,14 +142,14 @@ function Categories() {
                           onClick={() => handleUpdate(cat.id, false)}
                           className="text-sm font-medium text-red-600 hover:text-red-700"
                         >
-                          Deactivate
+                          {t("common.deactivate")}
                         </button>
                       ) : (
                         <button
                           onClick={() => handleUpdate(cat.id, true)}
                           className="text-sm font-medium text-green-600 hover:text-green-700"
                         >
-                          Reactivate
+                          {t("common.reactivate")}
                         </button>
                       )}
                     </td>
@@ -157,7 +161,7 @@ function Categories() {
                       colSpan={3}
                       className="px-4 py-6 text-center text-sm text-slate-500"
                     >
-                      No categories yet.
+                      {t("categories.empty")}
                     </td>
                   </tr>
                 )}

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import i18n from "../i18n";
 
 const LanguageContext = createContext();
 
@@ -10,6 +11,7 @@ export function LanguageProvider({ children }) {
     document.documentElement.dir = dir;
     document.documentElement.lang = lang;
     localStorage.setItem("lang", lang);
+    i18n.changeLanguage(lang);
   }, [lang]);
 
   function toggleLanguage() {

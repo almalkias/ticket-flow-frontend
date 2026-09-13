@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "../../api/client";
 import PublicHeader from "../../components/PublicHeader";
 
 function Submit() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const orgUuid = searchParams.get("org");
   const [categories, setCategories] = useState([]);
@@ -53,7 +55,7 @@ function Submit() {
       <div className="min-h-screen bg-slate-50">
         <PublicHeader backTo="/" />
         <main className="mx-auto max-w-lg px-6 py-8">
-          <p className="text-sm text-red-600">Invalid link. Please use the link provided by your support team.</p>
+          <p className="text-sm text-red-600">{t("common.invalidLink")}</p>
         </main>
       </div>
     );
@@ -67,11 +69,10 @@ function Submit() {
         {ticket ? (
           <div className="rounded-md border border-slate-200 bg-white p-5 shadow-sm text-center">
             <h2 className="text-base font-semibold text-slate-900">
-              Request submitted
+              {t("submit.successTitle")}
             </h2>
             <p className="mt-2 text-sm text-slate-500">
-              Save this reference number — you will need it to track your
-              request:
+              {t("submit.successNote")}
             </p>
             <p className="mt-3 font-mono text-lg text-slate-900">
               {ticket.reference_number}
@@ -80,11 +81,9 @@ function Submit() {
         ) : (
           <>
             <h2 className="text-xl font-semibold text-slate-900">
-              Submit a Request
+              {t("submit.title")}
             </h2>
-            <p className="mt-1 text-sm text-slate-500">
-              Describe the issue and we will get back to you.
-            </p>
+            <p className="mt-1 text-sm text-slate-500">{t("submit.subtitle")}</p>
 
             <form
               className="mt-6 space-y-4 rounded-md border border-slate-200 bg-white p-5 shadow-sm"
@@ -92,7 +91,7 @@ function Submit() {
             >
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Full name
+                  {t("submit.fullName")}
                 </label>
                 <input
                   type="text"
@@ -105,7 +104,7 @@ function Submit() {
 
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Email
+                  {t("common.email")}
                 </label>
                 <input
                   type="email"
@@ -118,7 +117,7 @@ function Submit() {
 
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Subject
+                  {t("submit.subject")}
                 </label>
                 <input
                   type="text"
@@ -132,8 +131,10 @@ function Submit() {
               {categories.length > 0 && (
                 <div>
                   <label className="mb-1 block text-xs font-medium text-slate-600">
-                    Category{" "}
-                    <span className="font-normal text-slate-400">(optional)</span>
+                    {t("submit.category")}{" "}
+                    <span className="font-normal text-slate-400">
+                      ({t("submit.optional")})
+                    </span>
                   </label>
                   <select
                     name="category_id"
@@ -141,7 +142,7 @@ function Submit() {
                     onChange={handleChange}
                     className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
                   >
-                    <option value="">Select a category</option>
+                    <option value="">{t("submit.selectCategory")}</option>
                     {categories.map((cat) => (
                       <option key={cat.id} value={cat.id}>
                         {cat.name}
@@ -153,7 +154,7 @@ function Submit() {
 
               <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">
-                  Description
+                  {t("submit.description")}
                 </label>
                 <textarea
                   name="description"
@@ -176,7 +177,7 @@ function Submit() {
                 disabled={submitting}
                 className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
               >
-                Submit request
+                {t("submit.submitBtn")}
               </button>
             </form>
           </>

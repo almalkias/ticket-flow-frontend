@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { apiRequest } from "../../api/client";
 import PublicHeader from "../../components/PublicHeader";
 
 function Register() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     org_name: "",
@@ -42,7 +44,7 @@ function Register() {
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-sm px-6">
           <h1 className="text-xl font-semibold text-slate-900 text-center mb-6">
-            Create your organization
+            {t("register.title")}
           </h1>
 
           <form
@@ -51,7 +53,7 @@ function Register() {
           >
             <div>
               <label className="mb-1 block text-xs font-medium text-slate-600">
-                Organization name
+                {t("register.orgName")}
               </label>
               <input
                 type="text"
@@ -64,7 +66,7 @@ function Register() {
 
             <div>
               <label className="mb-1 block text-xs font-medium text-slate-600">
-                Your full name
+                {t("register.yourName")}
               </label>
               <input
                 type="text"
@@ -77,7 +79,7 @@ function Register() {
 
             <div>
               <label className="mb-1 block text-xs font-medium text-slate-600">
-                Email
+                {t("common.email")}
               </label>
               <input
                 type="email"
@@ -90,7 +92,7 @@ function Register() {
 
             <div>
               <label className="mb-1 block text-xs font-medium text-slate-600">
-                Password
+                {t("common.password")}
               </label>
               <div className="relative">
                 <input
@@ -98,14 +100,14 @@ function Register() {
                   name="admin_password"
                   value={form.admin_password}
                   onChange={handleChange}
-                  className="w-full rounded-md border border-slate-300 px-3 py-2 pr-16 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                  className="w-full rounded-md border border-slate-300 px-3 py-2 pe-16 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute end-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-700"
+                  className="absolute inset-e-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-700"
                 >
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword ? t("common.hide") : t("common.show")}
                 </button>
               </div>
             </div>
@@ -123,14 +125,14 @@ function Register() {
               disabled={submitting}
               className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
             >
-              Create organization
+              {t("register.createBtn")}
             </button>
           </form>
 
           <p className="mt-4 text-center text-sm text-slate-500">
-            Already have an account?{" "}
+            {t("register.haveAccount")}{" "}
             <Link to="/login" className="text-slate-900 font-medium hover:underline">
-              Sign in
+              {t("register.signIn")}
             </Link>
           </p>
         </div>

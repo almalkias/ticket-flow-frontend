@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import PublicHeader from "../../components/PublicHeader";
 
 function Login() {
+  const { t } = useTranslation();
   const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
@@ -23,7 +25,7 @@ function Login() {
       await login(form.email, form.password);
       navigate("/dashboard");
     } catch (err) {
-      setError("Invalid email or password");
+      setError(t("login.invalidCredentials"));
     } finally {
       setSubmitting(false);
     }
@@ -35,7 +37,7 @@ function Login() {
       <div className="flex-1 flex items-center justify-center">
       <div className="w-full max-w-sm px-6">
         <h1 className="text-xl font-semibold text-slate-900 text-center mb-6">
-          Staff Login
+          {t("login.title")}
         </h1>
 
         <form
@@ -44,7 +46,7 @@ function Login() {
         >
           <div>
             <label className="mb-1 block text-xs font-medium text-slate-600">
-              Email
+              {t("common.email")}
             </label>
             <input
               type="email"
@@ -59,10 +61,10 @@ function Login() {
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="text-xs font-medium text-slate-600">
-                Password
+                {t("common.password")}
               </label>
               <Link to="/forgot-password" className="text-xs text-slate-500 hover:text-slate-700">
-                Forgot password?
+                {t("login.forgot")}
               </Link>
             </div>
             <div className="relative">
@@ -71,14 +73,14 @@ function Login() {
                 name="password"
                 value={form.password}
                 onChange={handleChange}
-                className="w-full rounded-md border border-slate-300 px-3 py-2 pr-16 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
+                className="w-full rounded-md border border-slate-300 px-3 py-2 pe-16 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                className="absolute end-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-700"
+                className="absolute inset-e-3 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-700"
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? t("common.hide") : t("common.show")}
               </button>
             </div>
           </div>
@@ -97,13 +99,13 @@ function Login() {
             className="w-full rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 
   disabled:opacity-50"
           >
-            Sign in
+            {t("login.signIn")}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-slate-500">
-          New here?{" "}
+          {t("login.newHere")}{" "}
           <Link to="/register" className="text-slate-900 font-medium hover:underline">
-            Create your organization
+            {t("login.createOrg")}
           </Link>
         </p>
       </div>

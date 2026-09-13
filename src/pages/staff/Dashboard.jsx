@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import { apiRequest } from "../../api/client";
 import StaffLayout from "../../components/StaffLayout";
@@ -19,25 +20,28 @@ const priorityDot = {
 };
 
 function StatusBadge({ status }) {
+  const { t } = useTranslation();
   return (
     <span
       className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${statusStyles[status]}`}
     >
-      {status.replace("_", " ")}
+      {t(`status.${status}`)}
     </span>
   );
 }
 
 function PriorityDot({ priority }) {
+  const { t } = useTranslation();
   return (
     <span className="flex items-center gap-1.5 text-sm text-slate-600">
       <span className={`h-2 w-2 rounded-full ${priorityDot[priority]}`} />
-      {priority}
+      {t(`priority.${priority}`)}
     </span>
   );
 }
 
 function Dashboard() {
+  const { t } = useTranslation();
   const { getToken, profile } = useAuth();
   const navigate = useNavigate();
   const [tickets, setTickets] = useState([]);
@@ -61,7 +65,7 @@ function Dashboard() {
   if (loading)
     return (
       <StaffLayout>
-        <p className="text-sm text-slate-500">Loading...</p>
+        <p className="text-sm text-slate-500">{t("common.loading")}</p>
       </StaffLayout>
     );
 
@@ -70,7 +74,7 @@ function Dashboard() {
       {portalLink && (
         <div className="mb-6 rounded-md border border-slate-200 bg-white p-4 shadow-sm">
           <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">
-            Share with customers
+            {t("dashboard.share")}
           </p>
           <div className="flex items-center justify-between gap-3">
             <span className="font-mono text-xs text-slate-700 truncate flex-1">
@@ -80,14 +84,14 @@ function Dashboard() {
               onClick={() => navigator.clipboard.writeText(portalLink)}
               className="shrink-0 rounded bg-slate-100 px-2 py-1 text-xs text-slate-600 hover:bg-slate-200"
             >
-              Copy
+              {t("common.copy")}
             </button>
           </div>
         </div>
       )}
 
       {tickets.length === 0 && (
-        <p className="text-sm text-slate-500">No tickets yet.</p>
+        <p className="text-sm text-slate-500">{t("dashboard.noTickets")}</p>
       )}
 
       {tickets.length > 0 && (
@@ -98,22 +102,22 @@ function Dashboard() {
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
                   <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
-                    Reference
+                    {t("dashboard.reference")}
                   </th>
                   <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
-                    Subject
+                    {t("dashboard.subject")}
                   </th>
                   <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
-                    Category
+                    {t("dashboard.category")}
                   </th>
                   <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
-                    Priority
+                    {t("dashboard.priority")}
                   </th>
                   <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
-                    Status
+                    {t("common.status")}
                   </th>
                   <th className="px-4 py-3 text-start text-xs font-medium uppercase tracking-wide text-slate-500">
-                    Submitted
+                    {t("dashboard.submitted")}
                   </th>
                 </tr>
               </thead>
