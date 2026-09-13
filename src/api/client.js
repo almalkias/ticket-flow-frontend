@@ -4,7 +4,10 @@ import { auth } from "../firebase";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function apiRequest(path, { method = "GET", body, token } = {}) {
-  const headers = { "Content-Type": "application/json" };
+  const headers = {
+    "Content-Type": "application/json",
+    "Accept-Language": localStorage.getItem("lang") || "en",
+  };
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
