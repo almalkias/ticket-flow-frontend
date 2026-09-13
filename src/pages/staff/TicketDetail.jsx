@@ -55,7 +55,7 @@ function ActionButton({ label, endpoint, getToken, onUpdate, danger }) {
 function AssignButton({ ticket, getToken, onUpdate }) {
   const { t } = useTranslation();
   const [agents, setAgents] = useState([]);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(ticket.assigned_to?.id ?? "");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -375,33 +375,56 @@ function TicketDetail() {
           {messages.length === 0 && (
             <p className="text-sm text-slate-500">{t("common.noMessages")}</p>
           )}
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`rounded-md border p-4 text-sm ${
-                msg.is_internal
-                  ? "border-amber-200 bg-amber-50"
-                  : msg.sender_type === "customer"
-                    ? "border-slate-200 bg-white"
-                    : "border-blue-100 bg-blue-50"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-medium text-slate-700">
-                  {msg.sender_name}
-                  {msg.is_internal && (
-                    <span className="ms-2 text-xs text-amber-700">
-                      {t("ticket.internalNoteTag")}
+          <div className="space-y-2">
+            {messages.map((msg) => {
+              const isOwn = msg.sender_user_id === profile?.id;
+              return (
+                <div
+                  key={msg.id}
+                  className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${
+                      msg.is_internal
+                        ? "border border-amber-200 bg-amber-50 text-slate-800"
+                        : isOwn
+                          ? "bg-blue-100 text-slate-800"
+                          : "border border-slate-200 bg-white text-slate-700"
+                    }`}
+                  >
+                    <div className="mb-0.5 flex items-center gap-2">
+                      <span
+                        className={`text-xs font-medium ${
+                          msg.is_internal
+                            ? "text-amber-700"
+                            : isOwn
+                              ? "text-slate-500"
+                              : "text-slate-500"
+                        }`}
+                      >
+                        {msg.sender_name}
+                      </span>
+                      {msg.is_internal && (
+                        <span className="text-xs text-amber-700">
+                          {t("ticket.internalNoteTag")}
+                        </span>
+                      )}
+                    </div>
+                    <p className="whitespace-pre-wrap">{msg.body}</p>
+                    <span
+                      className={`mt-1 block text-[10px] ${
+                        isOwn && !msg.is_internal
+                          ? "text-slate-500"
+                          : "text-slate-400"
+                      }`}
+                    >
+                      {new Date(msg.created_at).toLocaleString()}
                     </span>
-                  )}
-                </span>
-                <span className="text-xs text-slate-400">
-                  {new Date(msg.created_at).toLocaleString()}
-                </span>
-              </div>
-              <p className="text-slate-700 whitespace-pre-wrap">{msg.body}</p>
-            </div>
-          ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 

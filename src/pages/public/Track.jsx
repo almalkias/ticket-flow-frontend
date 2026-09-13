@@ -199,34 +199,48 @@ function Track() {
               <StatusBadge status={ticket.status} />
             </div>
 
-            <div className="mt-6 space-y-3">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`rounded-md border p-4 text-sm ${
-                    msg.sender_type === "customer"
-                      ? "border-slate-200 bg-white"
-                      : "border-amber-200 bg-amber-50"
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-medium text-slate-700">
-                      {msg.sender_name}
-                    </span>
-                    <span className="text-xs text-slate-400">
-                      {new Date(msg.created_at).toLocaleString()}
-                    </span>
+            <div className="mt-6 space-y-2">
+              {messages.map((msg) => {
+                const isCustomer = msg.sender_type === "customer";
+                return (
+                  <div
+                    key={msg.id}
+                    className={`flex ${isCustomer ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${
+                        isCustomer
+                          ? "bg-blue-100 text-slate-800"
+                          : "border border-slate-200 bg-white text-slate-700"
+                      }`}
+                    >
+                      <div className="mb-0.5">
+                        <span
+                          className={`text-xs font-medium ${
+                            isCustomer ? "text-slate-500" : "text-slate-500"
+                          }`}
+                        >
+                          {msg.sender_name}
+                        </span>
+                      </div>
+                      <p className="whitespace-pre-wrap">{msg.body}</p>
+                      <span
+                        className={`mt-1 block text-[10px] ${
+                          isCustomer ? "text-slate-500" : "text-slate-400"
+                        }`}
+                      >
+                        {new Date(msg.created_at).toLocaleString()}
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-slate-700 whitespace-pre-wrap">
-                    {msg.body}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
 
               {messages.length === 0 && (
                 <p className="text-sm text-slate-500">{t("common.noMessages")}</p>
               )}
             </div>
+
 
             {ticket.status !== "closed" ? (
               <form className="mt-6 space-y-3" onSubmit={handleReply}>
