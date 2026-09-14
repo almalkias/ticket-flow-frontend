@@ -7,7 +7,7 @@ import { apiRequest } from "../api/client";
 
 function StaffLayout({ children }) {
   const { t } = useTranslation();
-  const { logout, profile, getToken } = useAuth();
+  const { logout, user, profile, getToken } = useAuth();
   const { lang, toggleLanguage } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
@@ -239,6 +239,12 @@ function StaffLayout({ children }) {
           </div>
           </div>
         </header>
+
+        {user?.email === "demo@ticketflow.app" && (
+          <div className="border-b border-amber-200 bg-amber-50 px-6 py-2 text-center text-xs text-amber-800">
+            {t("layout.demoBanner")}
+          </div>
+        )}
 
         <main className="flex-1 p-4 md:p-6">{children}</main>
       </div>

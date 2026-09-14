@@ -54,7 +54,11 @@
     "feat5Title": "Private by design",
     "feat5Text": "Each organization's data is completely isolated from every other organization.",
     "ctaTitle": "Ready to get started?",
-    "ctaText": "Create your organization and share your portal link in minutes."
+    "ctaText": "Create your organization and share your portal link in minutes.",
+    "orTryDemo": "or",
+    "tryDemo": "Try the demo as Admin",
+    "tryDemoLoading": "Signing in…",
+    "tryDemoError": "Demo login failed. Please try again."
   },
   "portal": {
     "title": "How can we help?",
@@ -118,7 +122,8 @@
     "ticketDetail": "Ticket Detail",
     "signOut": "Sign out",
     "notifications": "Notifications",
-    "noNotifications": "No notifications"
+    "noNotifications": "No notifications",
+    "demoBanner": "Demo mode — data may be reset at any time."
   },
   "dashboard": {
     "share": "Share with customers",

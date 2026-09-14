@@ -1,9 +1,31 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../context/AuthContext";
 import PublicHeader from "../../components/PublicHeader";
+
+const DEMO_EMAIL = "demo@ticketflow.app";
+const DEMO_PASSWORD = "demo1234";
 
 function Landing() {
   const { t } = useTranslation();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [demoLoading, setDemoLoading] = useState(false);
+  const [demoError, setDemoError] = useState(null);
+
+  async function handleDemoLogin() {
+    setDemoLoading(true);
+    setDemoError(null);
+    try {
+      await login(DEMO_EMAIL, DEMO_PASSWORD);
+      navigate("/dashboard");
+    } catch {
+      setDemoError(t("landing.tryDemoError"));
+    } finally {
+      setDemoLoading(false);
+    }
+  }
 
   const steps = [1, 2, 3].map((n) => ({
     title: t(`landing.step${n}Title`),
@@ -41,6 +63,20 @@ function Landing() {
             >
               {t("landing.signIn")}
             </Link>
+          </div>
+
+          <div className="mt-4 flex flex-col items-center gap-1">
+            <span className="text-xs text-slate-400">{t("landing.orTryDemo")}</span>
+            <button
+              onClick={handleDemoLogin}
+              disabled={demoLoading}
+              className="rounded-md border border-dashed border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50"
+            >
+              {demoLoading ? t("landing.tryDemoLoading") : t("landing.tryDemo")}
+            </button>
+            {demoError && (
+              <p className="text-xs text-red-600">{demoError}</p>
+            )}
           </div>
         </div>
       </section>
